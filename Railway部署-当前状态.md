@@ -3,8 +3,14 @@
 ## ✅ 最新更新（刚刚完成）
 
 **时间**: 刚刚  
-**提交**: `1bb73fe - Downgrade dependencies to Node 18 compatible versions for Railway`  
+**提交**: `07f4617 - Add package-lock.json files and remove root package files for Railway monorepo deployment`  
 **状态**: ✅ 已推送到GitHub
+
+### 修复内容
+1. ✅ 添加 `backend/package-lock.json` - Railway需要此文件进行 `npm ci`
+2. ✅ 添加 `frontend/package-lock.json` - Railway需要此文件进行 `npm ci`
+3. ✅ 删除根目录的 `package.json` 和 `package-lock.json` - 避免Railway混淆
+4. ✅ 添加 `railway.toml` - 配置Railway识别monorepo结构
 
 ---
 
