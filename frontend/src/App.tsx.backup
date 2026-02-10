@@ -1,0 +1,260 @@
+import { useState, useEffect } from 'react';
+import { ClipboardMonitor } from './components/ClipboardMonitor';
+import { CollectionDialog } from './components/CollectionDialog';
+import { ContentCard } from './components/ContentCard';
+
+function App() {
+  const [showDialog, setShowDialog] = useState(false);
+  const [detectedUrl, setDetectedUrl] = useState('');
+  const [collections, setCollections] = useState<any[]>([]);
+  const [showPasteDialog, setShowPasteDialog] = useState(false);
+  const [showFolderDialog, setShowFolderDialog] = useState(false);
+  const [manualUrl, setManualUrl] = useState('');
+  const [newFolderName, setNewFolderName] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  // 加载收藏列表
+  useEffect(() => {
+    loadCollections();
+  }, []);
+
+  const loadCollections = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/collections?userId=550e8400-e29b-41d4-a716-446655440000');
+      if (response.ok) {
+        const data = await response.json();
+        setCollections(data);
+      }
+    } catch (error) {
+      console.error('加载收藏失败:', error);
+    }
+  };
+
+  const handleLinkDetected = (url: string) => {
+    setDetectedUrl(url);
+    setShowDialog(true);
+  };
+
+  const handleConfirm = async (data: any) => {
+    setLoading(true);
+    try {
+      console.log('发送收藏请�?', data);
+      const response = await fetch('http://localhost:5000/api/collections', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          url: data.url,
+          userId: '550e8400-e29b-41d4-a716-446655440000',
+          customTitle: data.title,
+          customDescription: data.description,
+          folderId: data.folderId || null,
+        }),
+      });
+
+      const responseData = await response.json();
+      console.log('收藏响应:', responseData);
+
+      if (response.ok) {
+        setCollections([responseData, ...collections]);
+        setShowDialog(false);
+        setShowPasteDialog(false);
+        setManualUrl('');
+        alert('�?收藏成功�?);
+        await loadCollections();
+      } else {
+        console.error('收藏失败:', responseData);
+        alert(`�?收藏失败: ${responseData.error || '请重�?}`);
+      }
+    } catch (error) {
+      console.error('收藏失败:', error);
+      alert('�?收藏失败，请检查网络连接和后端服务');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleManualPaste = () => {
+    if (manualUrl.trim()) {
+      setDetectedUrl(manualUrl);
+      setShowDialog(true);
+      setShowPasteDialog(false);
+    } else {
+      alert('请输入链�?);
+    }
+  };
+
+  const handleCreateFolder = async () => {
+    if (!newFolderName.trim()) {
+      alert('请输入文件夹名称');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch('http://localhost:5000/api/folders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: newFolderName,
+          userId: '550e8400-e29b-41d4-a716-446655440000',
+        }),
+      });
+
+      if (response.ok) {
+        const folder = await response.json();
+        alert(`�?文件�?"${folder.name}" 创建成功！`);
+        setShowFolderDialog(false);
+        setNewFolderName('');
+      } else {
+        const error = await response.json();
+        alert(`�?创建失败: ${error.error || '请重�?}`);
+      }
+    } catch (error) {
+      console.error('创建文件夹失�?', error);
+      alert('�?创建失败，请检查网络连�?);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="app">
+      <ClipboardMonitor onLinkDetected={handleLinkDetected} />
+
+      {/* 顶部导航�?*/}
+      <nav className="navbar">
+        <div className="navbar-brand">
+          <h1>All in One</h1>
+        </div>
+        <div className="navbar-actions">
+          <button className="btn btn-secondary" onClick={() => setShowFolderDialog(true)}>
+            �?新建收藏�?
+          </button>
+          <button className="btn btn-primary" onClick={() => setShowPasteDialog(true)}>
+            �?粘贴链接
+          </button>
+          <button className="btn btn-secondary" onClick={loadCollections}>
+            🔄 刷新列表
+          </button>
+        </div>
+      </nav>
+
+      {/* 主内容区 */}
+      <div className="main-content">
+        {/* 收藏统计 */}
+        <div className="stats-bar">
+          <div className="stat-item">
+            <span className="stat-number">{collections.length}</span>
+            <span className="stat-label">收藏总数</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-number">5</span>
+            <span className="stat-label">支持平台</span>
+          </div>
+        </div>
+
+        {/* 收藏列表 - 书架式展�?*/}
+        {collections.length > 0 ? (
+          <div className="bookshelf">
+            <h2 className="section-title">我的收藏</h2>
+            <div className="bookshelf-grid">
+              {collections.map((item: any) => (
+                <ContentCard
+                  key={item.id}
+                  item={item}
+                  onClick={(clickedItem) => window.open(clickedItem.url, '_blank')}
+                />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="empty-state">
+            <div className="empty-icon">📖</div>
+            <h2>书架空空如也</h2>
+            <p>复制链接或点�?粘贴链接"按钮开始收�?/p>
+            <button className="btn btn-large btn-primary" onClick={() => setShowPasteDialog(true)}>
+              📎 开始收�?
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* 收藏对话�?*/}
+      {showDialog && (
+        <CollectionDialog
+          url={detectedUrl}
+          onConfirm={handleConfirm}
+          onCancel={() => {
+            setShowDialog(false);
+            setManualUrl('');
+          }}
+        />
+      )}
+
+      {/* 手动粘贴对话�?*/}
+      {showPasteDialog && (
+        <div className="dialog-overlay">
+          <div className="dialog">
+            <h2>粘贴链接</h2>
+            <p>支持：知乎、微信公众号、小红书、抖音、B�?/p>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="粘贴链接到这�?.."
+                value={manualUrl}
+                onChange={(e) => setManualUrl(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleManualPaste()}
+                autoFocus
+              />
+            </div>
+            <div className="dialog-actions">
+              <button onClick={() => setShowPasteDialog(false)}>取消</button>
+              <button onClick={handleManualPaste} disabled={!manualUrl.trim()}>
+                确认
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 新建文件夹对话框 */}
+      {showFolderDialog && (
+        <div className="dialog-overlay">
+          <div className="dialog">
+            <h2>新建收藏�?/h2>
+            <p>创建一个新的收藏夹来组织你的内�?/p>
+            <div className="form-group">
+              <label>文件夹名�?/label>
+              <input
+                type="text"
+                placeholder="例如：技术文章、设计灵�?.."
+                value={newFolderName}
+                onChange={(e) => setNewFolderName(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleCreateFolder()}
+                autoFocus
+              />
+            </div>
+            <div className="dialog-actions">
+              <button onClick={() => {
+                setShowFolderDialog(false);
+                setNewFolderName('');
+              }}>取消</button>
+              <button onClick={handleCreateFolder} disabled={!newFolderName.trim()}>
+                创建
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 加载指示�?*/}
+      {loading && (
+        <div className="loading-overlay">
+          <div className="loading-spinner">加载�?..</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;

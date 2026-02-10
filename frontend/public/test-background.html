@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>背景图片测试</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-image: url('/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #f5f5f5;
+        }
+        .test-box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            margin: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .info {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-box">
+        <h1>背景图片测试页面</h1>
+        <p>如果你能看到背景图片，说明图片加载成功。</p>
+        <div class="info">
+            <p><strong>图片路径:</strong> /background.jpg</p>
+            <p><strong>完整URL:</strong> <span id="imageUrl"></span></p>
+            <p><strong>图片状态:</strong> <span id="imageStatus">检测中...</span></p>
+        </div>
+        <button onclick="testImage()" style="margin-top: 1rem; padding: 0.5rem 1rem; cursor: pointer;">
+            重新测试图片
+        </button>
+    </div>
+
+    <script>
+        function testImage() {
+            const img = new Image();
+            const fullUrl = window.location.origin + '/background.jpg';
+            document.getElementById('imageUrl').textContent = fullUrl;
+            
+            img.onload = function() {
+                document.getElementById('imageStatus').textContent = '✅ 图片加载成功！尺寸: ' + img.width + 'x' + img.height;
+                document.getElementById('imageStatus').style.color = 'green';
+            };
+            
+            img.onerror = function() {
+                document.getElementById('imageStatus').textContent = '❌ 图片加载失败！请检查文件是否存在。';
+                document.getElementById('imageStatus').style.color = 'red';
+            };
+            
+            img.src = fullUrl + '?t=' + Date.now();
+        }
+        
+        // 页面加载时自动测试
+        testImage();
+    </script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>清除缓存</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .step {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .step h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-weight: 600;
+        }
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .button-group {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #e83e8c;
+        }
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+            color: #155724;
+        }
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 清除浏览器缓存</h1>
+        
+        <div class="warning">
+            <strong>⚠️ 问题：</strong> 浏览器显示 "无效的类型 uuid 输入语法: 'test-user'"<br>
+            <strong>原因：</strong> 浏览器缓存了旧的JavaScript代码
+        </div>
+
+        <div class="info">
+            <strong>💡 提示：</strong> 代码已经修复，只需要清除浏览器缓存即可。
+        </div>
+
+        <div class="step">
+            <h3>方法1: 强制刷新（最简单）</h3>
+            <p>按键盘快捷键：</p>
+            <ul>
+                <li>Windows: <code>Ctrl + Shift + R</code></li>
+                <li>Mac: <code>Cmd + Shift + R</code></li>
+            </ul>
+            <p>这会清除当前页面的缓存并重新加载。</p>
+        </div>
+
+        <div class="step">
+            <h3>方法2: 使用开发者工具</h3>
+            <ol>
+                <li>按 <code>F12</code> 打开开发者工具</li>
+                <li>右键点击刷新按钮（地址栏旁边）</li>
+                <li>选择 <strong>"清空缓存并硬性重新加载"</strong></li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>方法3: 手动清除缓存</h3>
+            <ol>
+                <li>按 <code>F12</code> 打开开发者工具</li>
+                <li>切换到 <strong>Application</strong> 标签</li>
+                <li>左侧找到 <strong>Storage</strong> → <strong>Clear site data</strong></li>
+                <li>点击 <strong>Clear site data</strong> 按钮</li>
+                <li>刷新页面</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>方法4: 无痕模式测试</h3>
+            <p>打开无痕/隐私浏览窗口：</p>
+            <ul>
+                <li>Chrome/Edge: <code>Ctrl + Shift + N</code></li>
+                <li>Firefox: <code>Ctrl + Shift + P</code></li>
+            </ul>
+            <p>然后访问 <code>http://localhost:3000</code></p>
+        </div>
+
+        <div class="button-group">
+            <button onclick="clearAndReload()">🔄 清除缓存并重新加载</button>
+            <button onclick="openMain()">🏠 打开主页面</button>
+            <button onclick="openTest()">🧪 打开测试页面</button>
+        </div>
+
+        <div class="success">
+            <strong>✅ 成功标志：</strong><br>
+            当缓存清除成功后，你应该能够：
+            <ul>
+                <li>创建文件夹（不再显示UUID错误）</li>
+                <li>粘贴链接并收藏</li>
+                <li>看到收藏列表</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <strong>🛠️ 开发技巧：</strong><br>
+            为了避免以后再遇到缓存问题：
+            <ol>
+                <li>打开开发者工具 (F12)</li>
+                <li>切换到 <strong>Network</strong> 标签</li>
+                <li>勾选 <strong>Disable cache</strong> 复选框</li>
+                <li>保持开发者工具打开</li>
+            </ol>
+            这样在开发时就不会有缓存问题了。
+        </div>
+    </div>
+
+    <script>
+        function clearAndReload() {
+            // 清除localStorage
+            localStorage.clear();
+            
+            // 清除sessionStorage
+            sessionStorage.clear();
+            
+            // 尝试清除Service Worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let registration of registrations) {
+                        registration.unregister();
+                    }
+                });
+            }
+            
+            // 清除缓存
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (let name of names) {
+                        caches.delete(name);
+                    }
+                });
+            }
+            
+            alert('✅ 缓存已清除！\n\n现在将重新加载页面...');
+            
+            // 强制重新加载
+            window.location.href = window.location.href + '?t=' + Date.now();
+        }
+
+        function openMain() {
+            window.open('http://localhost:3000?t=' + Date.now(), '_blank');
+        }
+
+        function openTest() {
+            window.open('http://localhost:3000/test-collection.html?t=' + Date.now(), '_blank');
+        }
+    </script>
+</body>
+</html>

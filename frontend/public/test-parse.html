@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>链接解析测试</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: monospace;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .result h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .result pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        .error {
+            border-left-color: #f44336;
+            background: #ffebee;
+        }
+        .success {
+            border-left-color: #4caf50;
+            background: #e8f5e9;
+        }
+        .test-links {
+            margin-top: 1rem;
+        }
+        .test-link {
+            display: inline-block;
+            margin: 0.25rem;
+            padding: 0.5rem 1rem;
+            background: #e3f2fd;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        .test-link:hover {
+            background: #bbdefb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 链接解析测试工具</h1>
+        
+        <div class="input-group">
+            <label>输入链接:</label>
+            <textarea id="urlInput" rows="3" placeholder="粘贴链接到这里..."></textarea>
+        </div>
+
+        <div class="test-links">
+            <strong>快速测试:</strong><br>
+            <span class="test-link" onclick="testUrl('94 【港科广：基于按需实例化的动态协作框架 - 乌萨奇今天读paper了吗 | 小红书 - 你的生活兴趣社区】 😆 N3dROsIM6RKkR1f 😆 https://www.xiaohongshu.com/discovery/item/69847a7000000000220328a2?source=webshare&xhsshare=pc_web&xsec_token=CB7rsX7skFvbZ-d5-8fcBPZ1Z4_Wdjpmd_Ua_AwNZyzPE=&xsec_source=pc_share')">小红书分享格式</span>
+            <span class="test-link" onclick="testUrl('https://www.xiaohongshu.com/discovery/item/69847a7000000000220328a2')">小红书纯链接</span>
+            <span class="test-link" onclick="testUrl('https://www.xiaohongshu.com/explore/63f8a9b0000000001303b0a1')">小红书explore</span>
+            <span class="test-link" onclick="testUrl('https://mp.weixin.qq.com/s/abc123')">微信</span>
+            <span class="test-link" onclick="testUrl('https://zhuanlan.zhihu.com/p/123456')">知乎</span>
+        </div>
+
+        <button onclick="parseUrl()" id="parseBtn">解析链接</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function testUrl(url) {
+            document.getElementById('urlInput').value = url;
+            parseUrl();
+        }
+
+        async function parseUrl() {
+            const url = document.getElementById('urlInput').value.trim();
+            const resultDiv = document.getElementById('result');
+            const btn = document.getElementById('parseBtn');
+
+            if (!url) {
+                alert('请输入链接');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = '解析中...';
+            resultDiv.innerHTML = '<div class="result"><p>正在解析...</p></div>';
+
+            try {
+                const response = await fetch('http://localhost:5000/api/parse', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            <h3>✅ 解析成功</h3>
+                            <p><strong>平台:</strong> ${data.parseResult.platform}</p>
+                            <p><strong>内容ID:</strong> ${data.parseResult.contentId}</p>
+                            <p><strong>是否有效:</strong> ${data.parseResult.isValid ? '是' : '否'}</p>
+                            ${data.metadata ? `
+                                <p><strong>标题:</strong> ${data.metadata.title}</p>
+                                <p><strong>作者:</strong> ${data.metadata.author || '未知'}</p>
+                                <p><strong>描述:</strong> ${data.metadata.description || '无'}</p>
+                            ` : '<p><strong>元数据:</strong> 提取失败</p>'}
+                            <h4>完整响应:</h4>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result error">
+                            <h3>❌ 解析失败</h3>
+                            <p><strong>错误:</strong> ${data.error || '未知错误'}</p>
+                            <h4>响应详情:</h4>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ 请求失败</h3>
+                        <p><strong>错误:</strong> ${error.message}</p>
+                        <p>请确保后端服务正在运行 (http://localhost:5000)</p>
+                    </div>
+                `;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '解析链接';
+            }
+        }
+
+        // 支持回车键提交
+        document.getElementById('urlInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                parseUrl();
+            }
+        });
+    </script>
+</body>
+</html>

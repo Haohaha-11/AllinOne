@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Folders API</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .section {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      background: #667eea;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover {
+      background: #5568d3;
+    }
+    pre {
+      background: #f8f8f8;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .folder-item {
+      padding: 10px;
+      margin: 5px 0;
+      background: #f0f0f0;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .folder-item:hover {
+      background: #e0e0e0;
+    }
+    .success {
+      color: green;
+      font-weight: bold;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Test Folders API</h1>
+  
+  <div class="section">
+    <h2>1. Get Folder Tree</h2>
+    <button onclick="getFolderTree()">Get Folder Tree</button>
+    <div id="tree-result"></div>
+  </div>
+
+  <div class="section">
+    <h2>2. Folder List (Click to view contents)</h2>
+    <div id="folder-list"></div>
+  </div>
+
+  <div class="section">
+    <h2>3. Folder Contents</h2>
+    <div id="folder-contents"></div>
+  </div>
+
+  <script>
+    const userId = '550e8400-e29b-41d4-a716-446655440000';
+    const apiBase = 'http://localhost:5000/api';
+
+    async function getFolderTree() {
+      try {
+        const response = await fetch(`${apiBase}/folders/tree?userId=${userId}`);
+        const data = await response.json();
+        
+        document.getElementById('tree-result').innerHTML = `
+          <p class="success">✅ Success! Found ${data.length} root folders</p>
+          <pre>${JSON.stringify(data, null, 2)}</pre>
+        `;
+
+        // Display folder list
+        displayFolderList(data);
+      } catch (error) {
+        document.getElementById('tree-result').innerHTML = `
+          <p class="error">❌ Error: ${error.message}</p>
+        `;
+      }
+    }
+
+    function displayFolderList(folders, level = 0) {
+      const container = document.getElementById('folder-list');
+      let html = '';
+      
+      folders.forEach(folder => {
+        const indent = '&nbsp;'.repeat(level * 4);
+        html += `
+          <div class="folder-item" onclick="getFolderContents('${folder.id}', '${folder.name}')">
+            ${indent}📁 ${folder.name} (${folder.contentCount} items)
+          </div>
+        `;
+        
+        if (folder.children && folder.children.length > 0) {
+          html += displayFolderList(folder.children, level + 1);
+        }
+      });
+      
+      if (level === 0) {
+        container.innerHTML = html;
+      }
+      return html;
+    }
+
+    async function getFolderContents(folderId, folderName) {
+      try {
+        const response = await fetch(`${apiBase}/folders/${folderId}/contents`);
+        const data = await response.json();
+        
+        document.getElementById('folder-contents').innerHTML = `
+          <h3>📁 ${folderName}</h3>
+          <p class="success">✅ Found ${data.length} items</p>
+          <pre>${JSON.stringify(data, null, 2)}</pre>
+        `;
+      } catch (error) {
+        document.getElementById('folder-contents').innerHTML = `
+          <p class="error">❌ Error: ${error.message}</p>
+        `;
+      }
+    }
+
+    // Auto-load on page load
+    window.onload = () => {
+      getFolderTree();
+    };
+  </script>
+</body>
+</html>

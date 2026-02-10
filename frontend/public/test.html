@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测试页面 - 全渠道内容收藏助手</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    button {
+      background: #1890ff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 5px;
+    }
+    button:hover {
+      background: #40a9ff;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      font-family: monospace;
+    }
+    .success {
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+    }
+    .error {
+      background: #fff2f0;
+      border: 1px solid #ffccc7;
+    }
+    h1 {
+      color: #333;
+    }
+    .section {
+      margin: 30px 0;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 全渠道内容收藏助手 - 测试页面</h1>
+
+  <div class="section">
+    <h2>1. 测试后端连接</h2>
+    <button onclick="testBackend()">测试后端 API</button>
+    <div id="backend-result" class="result" style="display:none;"></div>
+  </div>
+
+  <div class="section">
+    <h2>2. 测试链接解析</h2>
+    <button onclick="testParse('https://zhuanlan.zhihu.com/p/123456')">测试知乎链接</button>
+    <button onclick="testParse('https://mp.weixin.qq.com/s/abc123')">测试微信链接</button>
+    <button onclick="testParse('https://www.xiaohongshu.com/explore/123')">测试小红书链接</button>
+    <div id="parse-result" class="result" style="display:none;"></div>
+  </div>
+
+  <div class="section">
+    <h2>3. 测试创建收藏</h2>
+    <button onclick="testCreateCollection()">创建测试收藏</button>
+    <div id="collection-result" class="result" style="display:none;"></div>
+  </div>
+
+  <div class="section">
+    <h2>4. 查看所有收藏</h2>
+    <button onclick="testGetCollections()">获取收藏列表</button>
+    <div id="list-result" class="result" style="display:none;"></div>
+  </div>
+
+  <div class="section">
+    <h2>5. 返回主应用</h2>
+    <button onclick="location.href='/'">返回主页</button>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:5000/api';
+
+    async function testBackend() {
+      const resultDiv = document.getElementById('backend-result');
+      resultDiv.style.display = 'block';
+      resultDiv.textContent = '正在测试...';
+      
+      try {
+        const response = await fetch('http://localhost:5000/health');
+        const data = await response.json();
+        resultDiv.className = 'result success';
+        resultDiv.textContent = '✅ 后端连接成功！\n\n' + JSON.stringify(data, null, 2);
+      } catch (error) {
+        resultDiv.className = 'result error';
+        resultDiv.textContent = '❌ 后端连接失败！\n\n错误: ' + error.message + '\n\n请确保后端已启动: npm run dev';
+      }
+    }
+
+    async function testParse(url) {
+      const resultDiv = document.getElementById('parse-result');
+      resultDiv.style.display = 'block';
+      resultDiv.textContent = '正在解析链接...';
+      
+      try {
+        const response = await fetch(`${API_BASE}/parse`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+        const data = await response.json();
+        resultDiv.className = 'result success';
+        resultDiv.textContent = '✅ 链接解析成功！\n\n' + JSON.stringify(data, null, 2);
+      } catch (error) {
+        resultDiv.className = 'result error';
+        resultDiv.textContent = '❌ 链接解析失败！\n\n错误: ' + error.message;
+      }
+    }
+
+    async function testCreateCollection() {
+      const resultDiv = document.getElementById('collection-result');
+      resultDiv.style.display = 'block';
+      resultDiv.textContent = '正在创建收藏...';
+      
+      try {
+        const response = await fetch(`${API_BASE}/collections`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            url: 'https://zhuanlan.zhihu.com/p/' + Date.now(),
+            userId: 'test-user'
+          })
+        });
+        const data = await response.json();
+        resultDiv.className = 'result success';
+        resultDiv.textContent = '✅ 收藏创建成功！\n\n' + JSON.stringify(data, null, 2);
+      } catch (error) {
+        resultDiv.className = 'result error';
+        resultDiv.textContent = '❌ 创建收藏失败！\n\n错误: ' + error.message;
+      }
+    }
+
+    async function testGetCollections() {
+      const resultDiv = document.getElementById('list-result');
+      resultDiv.style.display = 'block';
+      resultDiv.textContent = '正在获取收藏列表...';
+      
+      try {
+        const response = await fetch(`${API_BASE}/collections?userId=test-user`);
+        const data = await response.json();
+        resultDiv.className = 'result success';
+        resultDiv.textContent = `✅ 获取成功！共 ${data.length} 条收藏\n\n` + JSON.stringify(data, null, 2);
+      } catch (error) {
+        resultDiv.className = 'result error';
+        resultDiv.textContent = '❌ 获取收藏失败！\n\n错误: ' + error.message;
+      }
+    }
+  </script>
+</body>
+</html>
