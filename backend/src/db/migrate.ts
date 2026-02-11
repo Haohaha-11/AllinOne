@@ -63,4 +63,7 @@ async function migrate() {
   }
 }
 
-migrate();
+// Only run migrate() when this file is executed directly (not imported)
+if (import.meta.url === `file://${process.argv[1]}`) {
+  migrate();
+}
