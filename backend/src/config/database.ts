@@ -5,19 +5,32 @@ dotenv.config();
 
 const { Pool } = pg;
 
-export const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT || '5432'),
-  database: process.env.DB_NAME || 'content_collector',
-  user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || '',
-  // Query timeout: 3 seconds (before frontend 4s timeout)
-  query_timeout: 3000,
-  // Connection timeout: 5 seconds
-  connectionTimeoutMillis: 5000,
-  // Idle timeout: 30 seconds
-  idleTimeoutMillis: 30000,
-});
+// Support both DATABASE_URL and individual environment variables
+const poolConfig = process.env.DATABASE_URL
+  ? {
+      connectionString: process.env.DATABASE_URL,
+      // Query timeout: 3 seconds (before frontend 4s timeout)
+      query_timeout: 3000,
+      // Connection timeout: 5 seconds
+      connectionTimeoutMillis: 5000,
+      // Idle timeout: 30 seconds
+      idleTimeoutMillis: 30000,
+    }
+  : {
+      host: process.env.DB_HOST || 'localhost',
+      port: parseInt(process.env.DB_PORT || '5432'),
+      database: process.env.DB_NAME || 'content_collector',
+      user: process.env.DB_USER || 'postgres',
+      password: process.env.DB_PASSWORD || '',
+      // Query timeout: 3 seconds (before frontend 4s timeout)
+      query_timeout: 3000,
+      // Connection timeout: 5 seconds
+      connectionTimeoutMillis: 5000,
+      // Idle timeout: 30 seconds
+      idleTimeoutMillis: 30000,
+    };
+
+export const pool = new Pool(poolConfig);
 
 export async function testConnection() {
   try {
