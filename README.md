@@ -1,47 +1,60 @@
 # All in One - Universal Content Collector
 
-A cross-platform content collection and knowledge management tool designed to solve the pain point of scattered content across multiple platforms (WeChat, Zhihu, Xiaohongshu, Douyin, Bilibili) in the era of fragmented reading.
+> A cross-platform content collection and knowledge management tool for WeChat, Zhihu, Xiaohongshu, Douyin, and Bilibili.
 
-[中文文档](README_CN.md) | [Live Demo](https://allinonehao.up.railway.app)
+[![Live Demo](https://img.shields.io/badge/demo-live-success)](https://allinonehao.up.railway.app)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-## ✨ Key Features
+[Live Demo](https://allinonehao.up.railway.app) | [Quick Start](QUICKSTART.md) | [Deployment Guide](docs/DEPLOYMENT.md)
+
+## ✨ Features
 
 ### 📋 Content Management
-- **Smart Link Recognition** - Automatically detects and parses links from 5 major platforms
+- **Smart Link Recognition** - Automatically detects and parses links from 5 major Chinese platforms
 - **Auto Metadata Extraction** - Extracts title, cover image, author, and description
-- **Multi-level Folder Organization** - Unlimited nested folder structure
-- **Flexible Tag System** - Multi-dimensional content indexing across folders
-- **Uncategorized View** - Quick access to items without folders
+- **Multi-level Folders** - Unlimited nested folder structure for organization
+- **Flexible Tags** - Multi-dimensional content indexing across folders
 
-### 🎯 Content Status & Notes
-- **Priority Levels** - Mark items as Low (🟢), Medium (🟠), or High (🔴) priority
-- **Read Status** - Track read/unread status for each item
+### 🎯 Status & Notes
+- **Priority Levels** - Mark items as Low 🟢, Medium 🟠, or High 🔴 priority
+- **Read Tracking** - Track read/unread status for each item
 - **Rich Notes** - Add markdown-formatted notes to any content
-- **Notes Timestamps** - Automatic tracking of when notes were last updated
+- **Timestamps** - Automatic tracking of when notes were last updated
 
 ### 🔍 Advanced Search
 - **Full-Text Search** - PostgreSQL-powered search across titles, descriptions, and tags
-- **Auto-Search** - Real-time search with 200ms debounce
+- **Real-time Results** - Auto-search with 200ms debounce
 - **Categorized Results** - Results grouped by match type (title, description, tags)
 - **Fast Performance** - Optimized queries with 40-50ms response time
 
-### 🏷️ Tag Management
-- **Multi-Tag Support** - Assign multiple tags to each content item
-- **Tag-based Filtering** - Click tags to view all related content
-- **Tag Statistics** - See item count for each tag
-- **Create & Manage** - Create new tags on-the-fly or manage existing ones
-- **Tag Editing** - Rename or delete tags with automatic reference updates
-
-### 🎨 User Interface
-- **Beautiful Bookshelf Layout** - Card-based grid display with custom background
-- **Responsive Design** - Left sidebar for folders, right panel for uncategorized items
+### 🎨 Beautiful UI
+- **Bookshelf Layout** - Card-based grid display with custom background
+- **Responsive Design** - Works on desktop and mobile
 - **Visual Statistics** - Quick overview of folders, items, and platforms
-- **Card Transparency** - Semi-transparent cards (0.3 opacity) for elegant look
-- **Platform Icons** - Visual indicators for content source
+- **Semi-transparent Cards** - Elegant design with backdrop filters
 
-## 🚀 Live Demo
+## 🚀 Quick Start
 
-Visit the deployed application: [https://allinonehao.up.railway.app](https://allinonehao.up.railway.app)
+### Option 1: Live Demo (Fastest)
+Visit **[https://allinonehao.up.railway.app](https://allinonehao.up.railway.app)**
+
+### Option 2: Docker (Recommended)
+```bash
+git clone https://github.com/Haohaha-11/AllinOne.git
+cd AllinOne
+docker-compose up
+```
+Access at http://localhost:3000
+
+### Option 3: Local Development
+```bash
+git clone https://github.com/Haohaha-11/AllinOne.git
+cd AllinOne
+npm install
+npm run dev
+```
+
+See [QUICKSTART.md](QUICKSTART.md) for detailed instructions.
 
 ## 📋 Supported Platforms
 
@@ -49,61 +62,25 @@ Visit the deployed application: [https://allinonehao.up.railway.app](https://all
 |----------|--------|-------------|
 | WeChat Official Account | ✅ | mp.weixin.qq.com |
 | Zhihu | ✅ | zhihu.com |
-| Xiaohongshu (Little Red Book) | ✅ | xiaohongshu.com |
-| Douyin (TikTok China) | ✅ | douyin.com |
+| Xiaohongshu | ✅ | xiaohongshu.com |
+| Douyin | ✅ | douyin.com |
 | Bilibili | ✅ | bilibili.com |
-
-## 🎯 How to Use
-
-### 1. Collect Content
-- Click "📋 Paste Link" button
-- Paste a URL from supported platforms
-- Edit title, description, and tags
-- Select a folder (optional)
-- Click "Save" to collect
-
-### 2. Organize with Folders
-- Click "➕ New Folder" to create folders
-- Folders support unlimited nesting
-- Drag items between folders
-- Add descriptions to folders
-
-### 3. Tag Your Content
-- Add multiple tags when saving content
-- Create new tags on-the-fly
-- Click tags at the bottom to filter content
-- Rename or delete tags as needed
-
-### 4. Search & Filter
-- Click "🔍 Search" button
-- Type at least 2 characters to search
-- Results appear in real-time
-- Results grouped by match type
-
-### 5. Manage Status & Notes
-- Set priority level (Low/Medium/High)
-- Mark as read/unread
-- Add detailed notes with markdown support
-- View notes timestamp
 
 ## 🛠️ Technology Stack
 
-### Frontend
-- **React 18** + TypeScript
-- **Vite** - Build tool
-- **Axios** - HTTP client
-- **CSS3** - Custom styling with backdrop filters
+**Frontend**
+- React 18 + TypeScript
+- Vite
+- Axios
 
-### Backend
-- **Node.js** + Express + TypeScript
-- **PostgreSQL** - Database with full-text search
-- **Redis** - Optional caching layer
-- **Cheerio** - HTML parsing for metadata extraction
+**Backend**
+- Node.js + Express + TypeScript
+- PostgreSQL (with full-text search)
+- Redis (optional caching)
 
-### Deployment
-- **Railway** - Cloud platform for both frontend and backend
-- **Docker** - Containerization support
-- **GitHub Actions** - CI/CD ready
+**Deployment**
+- Railway (cloud platform)
+- Docker support
 
 ## 📁 Project Structure
 
@@ -114,7 +91,6 @@ Visit the deployed application: [https://allinonehao.up.railway.app](https://all
 │   │   ├── components/   # React components
 │   │   ├── config.ts     # API configuration
 │   │   └── App.tsx       # Main application
-│   ├── public/           # Static assets
 │   └── server.js         # Production server
 │
 ├── backend/              # Node.js backend
@@ -126,74 +102,50 @@ Visit the deployed application: [https://allinonehao.up.railway.app](https://all
 │   │   └── services/    # Business logic
 │   └── package.json
 │
+├── docs/                 # Documentation
+│   ├── DEPLOYMENT.md    # Deployment guide
+│   └── DOCKER.md        # Docker setup
+│
 ├── docker-compose.yml    # Docker configuration
-└── README.md
+├── QUICKSTART.md        # Quick start guide
+└── README.md            # This file
 ```
 
-## 🚀 Quick Start
+## 📚 Documentation
 
-### Option 1: Use Live Demo (Recommended)
-Visit [https://allinonehao.up.railway.app](https://allinonehao.up.railway.app)
+- **[Quick Start Guide](QUICKSTART.md)** - Get started in 5 minutes
+- **[Deployment Guide](docs/DEPLOYMENT.md)** - Deploy to Railway
+- **[Docker Setup](docs/DOCKER.md)** - Run with Docker
 
-### Option 2: Docker (Zero Configuration)
+## 🎯 Usage
 
-```bash
-# 1. Start all services
-docker-compose up
+### Collect Content
+1. Click "📋 Paste Link"
+2. Paste a URL from supported platforms
+3. Edit metadata and add tags
+4. Select a folder (optional)
+5. Click "Save"
 
-# 2. Access the application
-# Frontend: http://localhost:3000
-# Backend: http://localhost:5000
-```
+### Organize
+- Create folders with descriptions
+- Add multiple tags to items
+- Set priority levels
+- Mark items as read/unread
 
-### Option 3: Local Development
+### Search & Filter
+- Use the search bar (min 2 characters)
+- Click tags to filter by tag
+- Click folders to view contents
 
-```bash
-# 1. Install dependencies
-npm install
-
-# 2. Configure environment
-cp backend/.env.example backend/.env
-# Edit backend/.env with your database credentials
-
-# 3. Create database
-createdb content_collector
-
-# 4. Run migrations
-cd backend && npm run db:migrate && cd ..
-
-# 5. Start development servers
-npm run dev
-```
-
-See [QUICKSTART.md](QUICKSTART.md) for detailed instructions.
-
-## 🔧 Available Commands
-
-```bash
-# Development
-npm run dev              # Start both frontend and backend
-npm run dev:frontend     # Start frontend only
-npm run dev:backend      # Start backend only
-
-# Database
-npm run db:migrate       # Run migrations
-npm run db:rollback      # Rollback database
-
-# Build
-npm run build            # Build both frontend and backend
-npm run build:frontend   # Build frontend only
-npm run build:backend    # Build backend only
-
-# Testing
-npm test                 # Run tests
-npm run lint             # Lint code
-```
+### Add Notes
+- Click the notes button on any card
+- Write markdown-formatted notes
+- Notes are automatically timestamped
 
 ## 📚 API Documentation
 
 ### Parse Link
-```bash
+```http
 POST /api/parse
 Content-Type: application/json
 
@@ -204,7 +156,7 @@ Content-Type: application/json
 ```
 
 ### Create Collection
-```bash
+```http
 POST /api/collections
 Content-Type: application/json
 
@@ -217,22 +169,12 @@ Content-Type: application/json
 ```
 
 ### Search Content
-```bash
+```http
 GET /api/search?userId=user-id&query=React&pageSize=50
 ```
 
-### Get Folder Tree
-```bash
-GET /api/folders/tree?userId=user-id
-```
-
-### Get Tags
-```bash
-GET /api/tags?userId=user-id
-```
-
 ### Update Priority
-```bash
+```http
 PATCH /api/collections/:id/priority
 Content-Type: application/json
 
@@ -241,18 +183,8 @@ Content-Type: application/json
 }
 ```
 
-### Update Read Status
-```bash
-PATCH /api/collections/:id/read-status
-Content-Type: application/json
-
-{
-  "isRead": true
-}
-```
-
 ### Update Notes
-```bash
+```http
 PATCH /api/collections/:id/notes
 Content-Type: application/json
 
@@ -261,100 +193,81 @@ Content-Type: application/json
 }
 ```
 
+See the code for complete API documentation.
+
 ## 🌐 Deployment
 
-### Deploy to Railway
+Deploy to Railway in minutes:
 
-1. Fork this repository
-2. Create a new project on [Railway](https://railway.app)
+1. Push code to GitHub
+2. Create Railway project
 3. Add PostgreSQL database
-4. Create two services: Backend and Frontend
-5. Set environment variables:
-   - Backend: `DATABASE_URL`, `NODE_ENV=production`, `CORS_ORIGIN`
-   - Frontend: `VITE_API_URL`
+4. Create backend and frontend services
+5. Configure environment variables
 6. Deploy!
 
-See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed instructions.
+See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed instructions.
 
-## 📖 Documentation
+## 🔧 Development
 
-- [Quick Start Guide](QUICKSTART.md) - Get started in 5 minutes
-- [Deployment Guide](DEPLOYMENT_GUIDE.md) - Deploy to Railway
-- [Docker Setup](DOCKER_SETUP.md) - Docker usage guide
-- [API Documentation](FINAL_SUMMARY.md) - Complete API reference
-- [Requirements](.kiro/specs/universal-content-collector/requirements.md)
-- [Design Document](.kiro/specs/universal-content-collector/design.md)
+### Install dependencies
+```bash
+npm install
+```
 
-## 🎨 Features in Detail
+### Start development servers
+```bash
+npm run dev              # Start both frontend and backend
+npm run dev:frontend     # Start frontend only
+npm run dev:backend      # Start backend only
+```
 
-### Folder Management
-- Create unlimited nested folders
-- Add descriptions to folders
-- View item count per folder
-- Rename and delete folders
-- Move items between folders
+### Database migrations
+```bash
+cd backend
+npm run db:migrate       # Run migrations
+npm run db:rollback      # Rollback database
+```
 
-### Tag System
-- Create tags on-the-fly
-- Multi-tag support per item
-- Tag-based filtering
-- Tag statistics with item counts
-- Rename and delete tags
-
-### Content Cards
-- Cover image display
-- Title and description
-- Platform indicator
-- Priority level indicator (colored dots)
-- Read/unread status toggle
-- Notes button with indicator
-- Tag chips
-- Creation date
-- Quick actions (edit, move, delete)
-
-### Search Features
-- Real-time auto-search (200ms debounce)
-- Minimum 2 characters to trigger
-- Results grouped by match type
-- Search across titles, descriptions, and tags
-- Fast performance (40-50ms)
+### Build for production
+```bash
+npm run build            # Build both
+npm run build:frontend   # Build frontend only
+npm run build:backend    # Build backend only
+```
 
 ## 🔜 Roadmap
 
 - [ ] User authentication system
 - [ ] Mobile app (React Native)
 - [ ] Browser extension
-- [ ] Offline support
 - [ ] Batch operations
 - [ ] Data import/export
 - [ ] More platform support
-- [ ] AI-powered content summarization
+- [ ] AI-powered summarization
 - [ ] Collaborative collections
 
 ## 🐛 Troubleshooting
 
-### Common Issues
-
 **Database connection failed**
 - Check PostgreSQL is running
 - Verify credentials in `.env`
-- Ensure database exists
 
 **Frontend can't connect to backend**
-- Check `VITE_API_URL` in frontend
+- Check `VITE_API_URL` environment variable
 - Verify backend is running
 - Check CORS configuration
 
 **Search not working**
-- Ensure PostgreSQL full-text search is enabled
-- Check database indexes are created
+- Ensure database migrations ran
+- Check PostgreSQL full-text search is enabled
 - Verify search query length (min 2 characters)
 
 See [QUICKSTART.md](QUICKSTART.md) for more troubleshooting tips.
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) file for details
+MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
@@ -365,12 +278,18 @@ MIT License - see [LICENSE](LICENSE) file for details
 
 ## 👨‍💻 Author
 
-Created with ❤️ by Haohaha
+Created with ❤️ by [Haohaha](https://github.com/Haohaha-11)
 
-## 🌟 Star History
+## 🌟 Support
 
-If you find this project useful, please consider giving it a star! ⭐
+If you find this project useful, please consider:
+- Giving it a star ⭐
+- Sharing it with others
+- Contributing to the code
+- Reporting bugs and suggesting features
 
 ---
 
 **Start collecting your amazing content today!** 🚀
+
+[Get Started](QUICKSTART.md) | [Live Demo](https://allinonehao.up.railway.app) | [Documentation](docs/)

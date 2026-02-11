@@ -41,3 +41,14 @@ coverage/
 .cache/
 .temp/
 .tmp/
+
+# Backup files
+*.backup
+*.old
+*.bak
+
+# Temporary documentation (keep only main docs)
+*-FIX.md
+*-ISSUE.md
+*-SOLUTION.md
+TEMP_*.md
