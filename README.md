@@ -1,180 +1,376 @@
-# 全渠道内容收藏助手
+# All in One - Universal Content Collector
 
-一款跨平台的聚合收藏与知识库管理工具，旨在解决碎片化阅读时代内容分散在各平台（小红书、微信、知乎、抖音等）难以统一检索和复习的痛点。
+A cross-platform content collection and knowledge management tool designed to solve the pain point of scattered content across multiple platforms (WeChat, Zhihu, Xiaohongshu, Douyin, Bilibili) in the era of fragmented reading.
 
-## ✨ 核心特性
+[中文文档](README_CN.md) | [Live Demo](https://allinonehao.up.railway.app)
 
-- 🔗 **智能链接识别** - 自动识别5大平台链接（微信、知乎、小红书、抖音、B站）
-- 📝 **自动元数据提取** - 自动提取标题、封面图、作者、摘要
-- 📁 **多级文件夹管理** - 支持无限层级的文件夹组织
-- 🏷️ **灵活标签系统** - 跨文件夹的多维度内容索引
-- 🔍 **强大全文搜索** - 基于 PostgreSQL 的全文搜索
-- ⚡ **3秒极速收藏** - 从复制链接到完成收藏不超过3秒
-- 🎨 **统一美观界面** - 消除不同平台排版混乱
+## ✨ Key Features
 
-## 🚀 快速开始
+### 📋 Content Management
+- **Smart Link Recognition** - Automatically detects and parses links from 5 major platforms
+- **Auto Metadata Extraction** - Extracts title, cover image, author, and description
+- **Multi-level Folder Organization** - Unlimited nested folder structure
+- **Flexible Tag System** - Multi-dimensional content indexing across folders
+- **Uncategorized View** - Quick access to items without folders
 
-### 方式1: 使用 Docker（推荐，零配置）
+### 🎯 Content Status & Notes
+- **Priority Levels** - Mark items as Low (🟢), Medium (🟠), or High (🔴) priority
+- **Read Status** - Track read/unread status for each item
+- **Rich Notes** - Add markdown-formatted notes to any content
+- **Notes Timestamps** - Automatic tracking of when notes were last updated
 
-```bash
-# 1. 启动所有服务
-docker-compose up
+### 🔍 Advanced Search
+- **Full-Text Search** - PostgreSQL-powered search across titles, descriptions, and tags
+- **Auto-Search** - Real-time search with 200ms debounce
+- **Categorized Results** - Results grouped by match type (title, description, tags)
+- **Fast Performance** - Optimized queries with 40-50ms response time
 
-# 2. 访问应用
-# 前端: http://localhost:3000
-# 后端: http://localhost:5000
-```
+### 🏷️ Tag Management
+- **Multi-Tag Support** - Assign multiple tags to each content item
+- **Tag-based Filtering** - Click tags to view all related content
+- **Tag Statistics** - See item count for each tag
+- **Create & Manage** - Create new tags on-the-fly or manage existing ones
+- **Tag Editing** - Rename or delete tags with automatic reference updates
 
-### 方式2: 本地安装
+### 🎨 User Interface
+- **Beautiful Bookshelf Layout** - Card-based grid display with custom background
+- **Responsive Design** - Left sidebar for folders, right panel for uncategorized items
+- **Visual Statistics** - Quick overview of folders, items, and platforms
+- **Card Transparency** - Semi-transparent cards (0.3 opacity) for elegant look
+- **Platform Icons** - Visual indicators for content source
 
-```bash
-# 1. 安装依赖（已完成）
-npm install
+## 🚀 Live Demo
 
-# 2. 配置环境变量
-cp backend/.env.example backend/.env
-# 编辑 backend/.env 填入数据库配置
+Visit the deployed application: [https://allinonehao.up.railway.app](https://allinonehao.up.railway.app)
 
-# 3. 创建数据库
-createdb content_collector
+## 📋 Supported Platforms
 
-# 4. 运行数据库迁移
-cd backend && npm run db:migrate && cd ..
+| Platform | Status | Example URL |
+|----------|--------|-------------|
+| WeChat Official Account | ✅ | mp.weixin.qq.com |
+| Zhihu | ✅ | zhihu.com |
+| Xiaohongshu (Little Red Book) | ✅ | xiaohongshu.com |
+| Douyin (TikTok China) | ✅ | douyin.com |
+| Bilibili | ✅ | bilibili.com |
 
-# 5. 启动服务
-npm run dev
-```
+## 🎯 How to Use
 
-详细步骤请查看 [快速启动指南](QUICKSTART.md)
+### 1. Collect Content
+- Click "📋 Paste Link" button
+- Paste a URL from supported platforms
+- Edit title, description, and tags
+- Select a folder (optional)
+- Click "Save" to collect
 
-## 📋 支持的平台
+### 2. Organize with Folders
+- Click "➕ New Folder" to create folders
+- Folders support unlimited nesting
+- Drag items between folders
+- Add descriptions to folders
 
-| 平台 | 状态 | 示例链接 |
-|------|------|----------|
-| 微信公众号 | ✅ | mp.weixin.qq.com |
-| 知乎 | ✅ | zhihu.com |
-| 小红书 | ✅ | xiaohongshu.com |
-| 抖音 | ✅ | douyin.com |
-| B站 | ✅ | bilibili.com |
+### 3. Tag Your Content
+- Add multiple tags when saving content
+- Create new tags on-the-fly
+- Click tags at the bottom to filter content
+- Rename or delete tags as needed
 
-## 🎯 使用方法
+### 4. Search & Filter
+- Click "🔍 Search" button
+- Type at least 2 characters to search
+- Results appear in real-time
+- Results grouped by match type
 
-1. **收藏内容**
-   - 复制支持平台的链接
-   - 自动弹出收藏对话框
-   - 编辑信息并确认
+### 5. Manage Status & Notes
+- Set priority level (Low/Medium/High)
+- Mark as read/unread
+- Add detailed notes with markdown support
+- View notes timestamp
 
-2. **浏览内容**
-   - 卡片式展示所有收藏
-   - 点击卡片打开原链接
+## 🛠️ Technology Stack
 
-3. **搜索内容**
-   - 关键词搜索
-   - 平台筛选
-   - 标签筛选
+### Frontend
+- **React 18** + TypeScript
+- **Vite** - Build tool
+- **Axios** - HTTP client
+- **CSS3** - Custom styling with backdrop filters
 
-## 🛠️ 技术栈
+### Backend
+- **Node.js** + Express + TypeScript
+- **PostgreSQL** - Database with full-text search
+- **Redis** - Optional caching layer
+- **Cheerio** - HTML parsing for metadata extraction
 
-### 前端
-- React 18 + TypeScript
-- Vite (构建工具)
-- Jest + Testing Library (测试)
+### Deployment
+- **Railway** - Cloud platform for both frontend and backend
+- **Docker** - Containerization support
+- **GitHub Actions** - CI/CD ready
 
-### 后端
-- Node.js + Express + TypeScript
-- PostgreSQL (数据库 + 全文搜索)
-- Redis (缓存)
-- Jest + fast-check (测试)
-
-## 📁 项目结构
+## 📁 Project Structure
 
 ```
 .
-├── frontend/          # React 前端
-├── backend/           # Node.js 后端
-├── .kiro/specs/       # 规格文档
-├── docker-compose.yml # Docker 配置
+├── frontend/              # React frontend
+│   ├── src/
+│   │   ├── components/   # React components
+│   │   ├── config.ts     # API configuration
+│   │   └── App.tsx       # Main application
+│   ├── public/           # Static assets
+│   └── server.js         # Production server
+│
+├── backend/              # Node.js backend
+│   ├── src/
+│   │   ├── config/      # Database & Redis config
+│   │   ├── db/          # Migrations
+│   │   ├── models/      # Data models
+│   │   ├── routes/      # API routes
+│   │   └── services/    # Business logic
+│   └── package.json
+│
+├── docker-compose.yml    # Docker configuration
 └── README.md
 ```
 
-## 🔧 可用命令
+## 🚀 Quick Start
+
+### Option 1: Use Live Demo (Recommended)
+Visit [https://allinonehao.up.railway.app](https://allinonehao.up.railway.app)
+
+### Option 2: Docker (Zero Configuration)
 
 ```bash
-# 开发
-npm run dev              # 启动前后端
-npm run dev:frontend     # 仅启动前端
-npm run dev:backend      # 仅启动后端
+# 1. Start all services
+docker-compose up
 
-# 数据库
-npm run db:migrate       # 运行迁移
-npm run db:rollback      # 回滚数据库
-
-# 测试和代码质量
-npm test                 # 运行测试
-npm run lint             # 代码检查
-npm run format           # 代码格式化
+# 2. Access the application
+# Frontend: http://localhost:3000
+# Backend: http://localhost:5000
 ```
 
-## 📚 API 文档
+### Option 3: Local Development
 
-### 解析链接
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Configure environment
+cp backend/.env.example backend/.env
+# Edit backend/.env with your database credentials
+
+# 3. Create database
+createdb content_collector
+
+# 4. Run migrations
+cd backend && npm run db:migrate && cd ..
+
+# 5. Start development servers
+npm run dev
+```
+
+See [QUICKSTART.md](QUICKSTART.md) for detailed instructions.
+
+## 🔧 Available Commands
+
+```bash
+# Development
+npm run dev              # Start both frontend and backend
+npm run dev:frontend     # Start frontend only
+npm run dev:backend      # Start backend only
+
+# Database
+npm run db:migrate       # Run migrations
+npm run db:rollback      # Rollback database
+
+# Build
+npm run build            # Build both frontend and backend
+npm run build:frontend   # Build frontend only
+npm run build:backend    # Build backend only
+
+# Testing
+npm test                 # Run tests
+npm run lint             # Lint code
+```
+
+## 📚 API Documentation
+
+### Parse Link
 ```bash
 POST /api/parse
-{
-  "url": "https://zhuanlan.zhihu.com/p/123456"
-}
-```
+Content-Type: application/json
 
-### 创建收藏
-```bash
-POST /api/collections
 {
   "url": "https://zhuanlan.zhihu.com/p/123456",
-  "userId": "user-id"
+  "userId": "550e8400-e29b-41d4-a716-446655440000"
 }
 ```
 
-### 搜索内容
+### Create Collection
 ```bash
-GET /api/search?keyword=React&platforms=zhihu&page=1
+POST /api/collections
+Content-Type: application/json
+
+{
+  "url": "https://zhuanlan.zhihu.com/p/123456",
+  "userId": "550e8400-e29b-41d4-a716-446655440000",
+  "folderId": "folder-uuid",
+  "tags": ["React", "Tutorial"]
+}
 ```
 
-完整 API 文档请查看 [FINAL_SUMMARY.md](FINAL_SUMMARY.md)
+### Search Content
+```bash
+GET /api/search?userId=user-id&query=React&pageSize=50
+```
 
-## 📖 文档
+### Get Folder Tree
+```bash
+GET /api/folders/tree?userId=user-id
+```
 
-- [快速启动指南](QUICKSTART.md) - 5分钟快速开始
-- [完整功能文档](FINAL_SUMMARY.md) - 详细功能说明
-- [Docker 设置指南](DOCKER_SETUP.md) - Docker 使用说明
-- [需求文档](.kiro/specs/universal-content-collector/requirements.md)
-- [设计文档](.kiro/specs/universal-content-collector/design.md)
-- [任务列表](.kiro/specs/universal-content-collector/tasks.md)
+### Get Tags
+```bash
+GET /api/tags?userId=user-id
+```
 
-## 🎨 截图
+### Update Priority
+```bash
+PATCH /api/collections/:id/priority
+Content-Type: application/json
 
-（待添加实际截图）
+{
+  "priority": 2  // 1=Low, 2=Medium, 3=High
+}
+```
 
-## 🔜 路线图
+### Update Read Status
+```bash
+PATCH /api/collections/:id/read-status
+Content-Type: application/json
 
-- [ ] 用户认证系统
-- [ ] 移动端适配
-- [ ] 离线支持
-- [ ] 批量操作
-- [ ] 数据导入导出
-- [ ] 更多平台支持
+{
+  "isRead": true
+}
+```
 
-## 🐛 故障排除
+### Update Notes
+```bash
+PATCH /api/collections/:id/notes
+Content-Type: application/json
 
-遇到问题？查看 [快速启动指南](QUICKSTART.md) 的常见问题部分。
+{
+  "notes": "# My Notes\n\nThis is a great article!"
+}
+```
 
-## 📄 许可证
+## 🌐 Deployment
 
-MIT
+### Deploy to Railway
 
-## 🙏 致谢
+1. Fork this repository
+2. Create a new project on [Railway](https://railway.app)
+3. Add PostgreSQL database
+4. Create two services: Backend and Frontend
+5. Set environment variables:
+   - Backend: `DATABASE_URL`, `NODE_ENV=production`, `CORS_ORIGIN`
+   - Frontend: `VITE_API_URL`
+6. Deploy!
 
-感谢所有开源项目的贡献者！
+See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed instructions.
+
+## 📖 Documentation
+
+- [Quick Start Guide](QUICKSTART.md) - Get started in 5 minutes
+- [Deployment Guide](DEPLOYMENT_GUIDE.md) - Deploy to Railway
+- [Docker Setup](DOCKER_SETUP.md) - Docker usage guide
+- [API Documentation](FINAL_SUMMARY.md) - Complete API reference
+- [Requirements](.kiro/specs/universal-content-collector/requirements.md)
+- [Design Document](.kiro/specs/universal-content-collector/design.md)
+
+## 🎨 Features in Detail
+
+### Folder Management
+- Create unlimited nested folders
+- Add descriptions to folders
+- View item count per folder
+- Rename and delete folders
+- Move items between folders
+
+### Tag System
+- Create tags on-the-fly
+- Multi-tag support per item
+- Tag-based filtering
+- Tag statistics with item counts
+- Rename and delete tags
+
+### Content Cards
+- Cover image display
+- Title and description
+- Platform indicator
+- Priority level indicator (colored dots)
+- Read/unread status toggle
+- Notes button with indicator
+- Tag chips
+- Creation date
+- Quick actions (edit, move, delete)
+
+### Search Features
+- Real-time auto-search (200ms debounce)
+- Minimum 2 characters to trigger
+- Results grouped by match type
+- Search across titles, descriptions, and tags
+- Fast performance (40-50ms)
+
+## 🔜 Roadmap
+
+- [ ] User authentication system
+- [ ] Mobile app (React Native)
+- [ ] Browser extension
+- [ ] Offline support
+- [ ] Batch operations
+- [ ] Data import/export
+- [ ] More platform support
+- [ ] AI-powered content summarization
+- [ ] Collaborative collections
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Database connection failed**
+- Check PostgreSQL is running
+- Verify credentials in `.env`
+- Ensure database exists
+
+**Frontend can't connect to backend**
+- Check `VITE_API_URL` in frontend
+- Verify backend is running
+- Check CORS configuration
+
+**Search not working**
+- Ensure PostgreSQL full-text search is enabled
+- Check database indexes are created
+- Verify search query length (min 2 characters)
+
+See [QUICKSTART.md](QUICKSTART.md) for more troubleshooting tips.
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details
+
+## 🙏 Acknowledgments
+
+- React Team for the amazing framework
+- PostgreSQL for powerful full-text search
+- Railway for easy deployment
+- All open-source contributors
+
+## 👨‍💻 Author
+
+Created with ❤️ by Haohaha
+
+## 🌟 Star History
+
+If you find this project useful, please consider giving it a star! ⭐
 
 ---
 
-**开始收藏你的精彩内容吧！** 🚀
+**Start collecting your amazing content today!** 🚀
