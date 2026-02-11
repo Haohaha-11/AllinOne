@@ -702,7 +702,7 @@ function App() {
           style={{ marginLeft: `${level * 20}px` }}
         >
           <div className="folder-card-header" onClick={() => handleFolderClick(folder)}>
-            <div className="folder-icon-small">??</div>
+            <div className="folder-icon-small">📁</div>
             <div className="folder-info">
               <h3>{folder.name}</h3>
               {folder.description && <p className="folder-description">{folder.description}</p>}
@@ -721,7 +721,7 @@ function App() {
               }}
               title="Edit folder"
             >
-              ??
+              ✏️
             </button>
             <button 
               className="folder-action-btn delete-btn"
@@ -731,7 +731,7 @@ function App() {
               }}
               title="Delete folder"
             >
-              ???
+              🗑️
             </button>
           </div>
         </div>
@@ -798,11 +798,11 @@ function App() {
           <div className="bookshelf">
             <div className="folder-header">
               <h2 className="section-title">
-                ??? {currentTag.name}
+                🏷️ {currentTag.name}
                 <span className="folder-subtitle"> ({tagContents.length} items)</span>
               </h2>
               <button className="btn btn-secondary" onClick={handleBackFromTag}>
-                �� Back to Tags
+                ← Back to Tags
               </button>
             </div>
             {tagContents.length > 0 ? (
@@ -822,21 +822,21 @@ function App() {
                         onClick={() => handleEditContent(item)}
                         title="Edit"
                       >
-                        ??
+                        ✏️
                       </button>
                       <button 
                         className="content-action-btn"
                         onClick={() => handleMoveContent(item)}
                         title="Move to folder"
                       >
-                        ??
+                        📂
                       </button>
                       <button 
                         className="content-action-btn delete-btn"
                         onClick={() => handleDeleteContent(item.id, item.title)}
                         title="Delete"
                       >
-                        ???
+                        🗑️
                       </button>
                     </div>
                   </div>
@@ -853,7 +853,7 @@ function App() {
           <div className="home-layout">
             {/* Left: Folders Section */}
             <div className="folders-column">
-              <h2 className="section-title">?? My Folders</h2>
+              <h2 className="section-title">📁 My Folders</h2>
               {folders.length > 0 ? (
                 <div className="folder-list">
                   {renderFolderList(folders)}
@@ -870,7 +870,7 @@ function App() {
 
             {/* Right: Uncategorized Items Section */}
             <div className="uncategorized-column">
-              <h2 className="section-title">?? Uncategorized Items</h2>
+              <h2 className="section-title">📄 Uncategorized Items</h2>
               {uncategorizedItems.length > 0 ? (
                 <div className="content-grid">
                   {uncategorizedItems.map((item: any) => (
@@ -888,21 +888,21 @@ function App() {
                           onClick={() => handleEditContent(item)}
                           title="Edit"
                         >
-                          ??
+                          ✏️
                         </button>
                         <button 
                           className="content-action-btn"
                           onClick={() => handleMoveContent(item)}
                           title="Move to folder"
                         >
-                          ??
+                          📂
                         </button>
                         <button 
                           className="content-action-btn delete-btn"
                           onClick={() => handleDeleteContent(item.id, item.title)}
                           title="Delete"
                         >
-                          ???
+                          🗑️
                         </button>
                       </div>
                     </div>
@@ -923,11 +923,11 @@ function App() {
           <div className="bookshelf">
             <div className="folder-header">
               <h2 className="section-title">
-                ?? {currentFolder.name}
+                📁 {currentFolder.name}
                 <span className="folder-subtitle"> ({folderContents.length} items)</span>
               </h2>
               <button className="btn btn-secondary" onClick={() => handleEditFolder(currentFolder)}>
-                ?? Edit Folder
+                ✏️ Edit Folder
               </button>
             </div>
             {folderContents.length > 0 ? (
@@ -947,21 +947,21 @@ function App() {
                         onClick={() => handleEditContent(item)}
                         title="Edit"
                       >
-                        ??
+                        ✏️
                       </button>
                       <button 
                         className="content-action-btn"
                         onClick={() => handleMoveContent(item)}
                         title="Move to folder"
                       >
-                        ??
+                        📂
                       </button>
                       <button 
                         className="content-action-btn delete-btn"
                         onClick={() => handleDeleteContent(item.id, item.title)}
                         title="Delete"
                       >
-                        ???
+                        🗑️
                       </button>
                     </div>
                   </div>
@@ -971,7 +971,7 @@ function App() {
               <div className="empty-folder">
                 <p>This folder is empty. Paste a link to add content here.</p>
                 <button className="btn btn-primary" onClick={() => setShowPasteDialog(true)}>
-                  ?? Add Content
+                  ➕ Add Content
                 </button>
               </div>
             )}
@@ -981,7 +981,7 @@ function App() {
         {/* Tags Section at Bottom */}
         {tags.length > 0 && !currentTag && (
           <div className="tags-section">
-            <h3 className="tags-title">??? Tags</h3>
+            <h3 className="tags-title">🏷️ Tags</h3>
             <div className="tags-cloud">
               {tags.map((tag: any) => (
                 <div key={tag.id} className="tag-chip-wrapper">
@@ -1001,14 +1001,14 @@ function App() {
                       onClick={(e) => handleEditTag(tag, e)}
                       title="Edit tag"
                     >
-                      ??
+                      ✏️
                     </button>
                     <button
                       className="tag-action-btn delete-btn"
                       onClick={(e) => handleDeleteTag(tag.id, tag.name, e)}
                       title="Delete tag"
                     >
-                      ???
+                      🗑️
                     </button>
                   </div>
                 </div>
@@ -1207,7 +1207,7 @@ function App() {
       {showSearchDialog && (
         <div className="dialog-overlay">
           <div className="dialog search-dialog">
-            <h2>?? Search Content</h2>
+            <h2>🔍 Search Content</h2>
             <p>Search by title, description, or tags (min. 2 characters)</p>
             <div className="form-group">
               <input
@@ -1243,7 +1243,7 @@ function App() {
               <div className="search-results">
                 {searchResultsByType.byTitle.length > 0 && (
                   <div className="search-category">
-                    <h3>?? By Title ({searchResultsByType.byTitle.length})</h3>
+                    <h3>📝 By Title ({searchResultsByType.byTitle.length})</h3>
                     <div className="search-results-grid">
                       {searchResultsByType.byTitle.map((item: any) => (
                         <div key={item.id} className="search-result-item" onClick={() => {
@@ -1268,7 +1268,7 @@ function App() {
 
                 {searchResultsByType.byDescription.length > 0 && (
                   <div className="search-category">
-                    <h3>?? By Description ({searchResultsByType.byDescription.length})</h3>
+                    <h3>📄 By Description ({searchResultsByType.byDescription.length})</h3>
                     <div className="search-results-grid">
                       {searchResultsByType.byDescription.map((item: any) => (
                         <div key={item.id} className="search-result-item" onClick={() => {
@@ -1293,7 +1293,7 @@ function App() {
 
                 {searchResultsByType.byTags.length > 0 && (
                   <div className="search-category">
-                    <h3>??? By Tags ({searchResultsByType.byTags.length})</h3>
+                    <h3>🏷️ By Tags ({searchResultsByType.byTags.length})</h3>
                     <div className="search-results-grid">
                       {searchResultsByType.byTags.map((item: any) => (
                         <div key={item.id} className="search-result-item" onClick={() => {
