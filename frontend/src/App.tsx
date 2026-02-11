@@ -755,15 +755,15 @@ function App() {
         
         <div className="navbar-stats">
           <div className="stat-badge">
-            <span className="stat-icon">??</span>
+            <span className="stat-icon">📁</span>
             <span className="stat-text">{folders.length} Folders</span>
           </div>
           <div className="stat-badge">
-            <span className="stat-icon">??</span>
+            <span className="stat-icon">📄</span>
             <span className="stat-text">{uncategorizedItems.length} Uncategorized</span>
           </div>
           <div className="stat-badge">
-            <span className="stat-icon">??</span>
+            <span className="stat-icon">🌐</span>
             <span className="stat-text">5 Platforms</span>
           </div>
         </div>
@@ -771,23 +771,23 @@ function App() {
         <div className="navbar-actions">
           {currentFolder && (
             <button className="btn btn-secondary" onClick={handleBackToFolders}>
-              �� Back
+              ← Back
             </button>
           )}
           <button className="btn btn-secondary" onClick={() => setShowSearchDialog(true)}>
-            ?? Search
+            🔍 Search
           </button>
           <button className="btn btn-secondary" onClick={() => setShowFolderDialog(true)}>
-            ?? New Folder
+            ➕ New Folder
           </button>
           <button className="btn btn-primary" onClick={() => setShowPasteDialog(true)}>
-            ?? Paste Link
+            📋 Paste Link
           </button>
           <button className="btn btn-secondary" onClick={() => {
             loadFolders();
             loadUncategorizedItems();
           }}>
-            ?? Refresh
+            🔄 Refresh
           </button>
         </div>
       </nav>

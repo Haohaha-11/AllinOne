@@ -23,7 +23,8 @@ export async function runMigrations() {
     '001_initial_schema.sql',
     '003_add_folder_description.sql',
     '004_add_search_indexes.sql',
-    '005_add_status_and_notes.sql'
+    '005_add_status_and_notes.sql',
+    '006_add_default_user.sql'
   ];
   
   for (const migration of migrations) {
