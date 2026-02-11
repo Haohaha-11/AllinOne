@@ -60,6 +60,19 @@ async function startServer() {
       process.exit(1);
     }
     
+    // Run migrations automatically in production
+    if (process.env.NODE_ENV === 'production') {
+      console.log('\n🔄 Running database migrations...');
+      try {
+        const { runMigrations } = await import('./db/migrate.js');
+        await runMigrations();
+        console.log('✓ Migrations completed\n');
+      } catch (error: any) {
+        console.error('⚠️  Migration warning:', error.message);
+        console.log('Continuing with server startup...\n');
+      }
+    }
+    
     // Try to connect to Redis (optional)
     console.log('Connecting to Redis...');
     await connectRedis();

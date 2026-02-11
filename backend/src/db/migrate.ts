@@ -15,20 +15,47 @@ async function runMigration(filename: string) {
   console.log(`✓ Migration completed: ${filename}`);
 }
 
+export async function runMigrations() {
+  console.log('Starting database migration...\n');
+  
+  // 按顺序运行所有迁移
+  const migrations = [
+    '001_initial_schema.sql',
+    '003_add_folder_description.sql',
+    '004_add_search_indexes.sql',
+    '005_add_status_and_notes.sql'
+  ];
+  
+  for (const migration of migrations) {
+    try {
+      await runMigration(migration);
+    } catch (error: any) {
+      // 如果表已存在，跳过错误
+      if (error.code === '42P07' || error.message?.includes('already exists')) {
+        console.log(`⚠ Skipping ${migration} (already applied)`);
+      } else {
+        throw error;
+      }
+    }
+  }
+  
+  console.log('✓ All migrations completed successfully!');
+}
+
 async function migrate() {
   try {
-    console.log('Starting database migration...\n');
-    
-    // 运行初始Schema
-    await runMigration('001_initial_schema.sql');
+    await runMigrations();
     
     // 可选：运行种子数据（仅开发环境）
     if (process.env.NODE_ENV === 'development') {
       console.log('\nRunning seed data (development only)...');
-      await runMigration('002_seed_data.sql');
+      try {
+        await runMigration('002_seed_data.sql');
+      } catch (error: any) {
+        console.log('⚠ Seed data already exists or failed:', error.message);
+      }
     }
     
-    console.log('\n✓ All migrations completed successfully!');
     process.exit(0);
   } catch (error) {
     console.error('✗ Migration failed:', error);
