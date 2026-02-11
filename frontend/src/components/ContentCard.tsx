@@ -130,7 +130,7 @@ export function ContentCard({
         <div className="card-meta">
           <span className="platform-icon">{getPlatformIcon(item.platform)}</span>
           {item.author && <span className="author">{item.author}</span>}
-          <span className="date">📅 {formatDate(item.createdAt || item.created_at)}</span>
+          <span className="date">📅 {formatDate((item.createdAt || item.created_at) || '')}</span>
         </div>
 
         {item.tags && item.tags.length > 0 && (
