@@ -98,7 +98,7 @@ export function ContentCard({
       <div className="card-priority-indicator">
         <div 
           className={`priority-dot ${item.priority ? 'active' : ''}`}
-          style={{ backgroundColor: getPriorityColor(item.priority) }}
+          style={{ backgroundColor: getPriorityColor(item.priority || null) }}
           title={item.priority ? `Priority: ${['', 'Low', 'Medium', 'High'][item.priority]}` : 'No priority'}
         />
       </div>
@@ -113,7 +113,7 @@ export function ContentCard({
       {(item.coverImageUrl || item.cover_image_url) && (
         <div className="card-image">
           <img
-            src={item.coverImageUrl || item.cover_image_url}
+            src={item.coverImageUrl || item.cover_image_url || ''}
             alt={item.title}
             onError={(e) => {
               e.currentTarget.style.display = 'none';

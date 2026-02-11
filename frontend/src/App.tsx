@@ -199,7 +199,7 @@ function App() {
       });
 
       if (response.ok) {
-        const folder = await response.json();
+        await response.json(); // Consume response
         setShowFolderDialog(false);
         setNewFolderName('');
         setNewFolderDescription('');
