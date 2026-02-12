@@ -4,6 +4,7 @@ import { CollectionDialog } from './components/CollectionDialog';
 import { ContentCard } from './components/ContentCard';
 import { NotesDialog } from './components/NotesDialog';
 import { API_URL } from './config';
+import { getUserId } from './utils/userId';
 
 interface Folder {
   id: string;
@@ -54,7 +55,8 @@ function App() {
   const [editingNotes, setEditingNotes] = useState<any | null>(null);
   const [notesContent, setNotesContent] = useState('');
 
-  const userId = '550e8400-e29b-41d4-a716-446655440000';
+  // Get or create unique user ID for this browser
+  const userId = getUserId();
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
